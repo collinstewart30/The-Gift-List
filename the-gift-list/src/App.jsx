@@ -1,27 +1,55 @@
-import { useEffect, useState } from "react";
+import "./index.css";
+import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
-const supabase = createClient("https://spjzdxkzldkxetwmtiln.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwanpkeGt6bGRreGV0d210aWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3NTM2MTEsImV4cCI6MjA1MDMyOTYxMX0.8d2GaPhgmwgiYlw4R6UsLfUFdDaFUMymOX36lLr4k5c");
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+export default function App() {
+  const [session, setSession] = useState(null);
 
-function App() {
-  const [countries, setCountries] = useState([]);
 
   useEffect(() => {
-    getCountries();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => subscription.unsubscribe();
   }, []);
+  if (!session) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            providers={["google"]}
+          />
+        </div>
 
-  async function getCountries() {
-    const { data } = await supabase.from("countries").select();
-    setCountries(data);
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div>Logged in!</div>
+        <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+      </div>
+    );
   }
-
-  return (
-    <ul>
-      {countries.map((country) => (
-        <li key={country.name}>{country.name}</li>
-      ))}
-    </ul>
-  );
 }
-
-export default App;
