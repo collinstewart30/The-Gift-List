@@ -8,6 +8,7 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
+
 export default function App() {
   const [session, setSession] = useState(null);
 
@@ -25,23 +26,14 @@ export default function App() {
   }, []);
   if (!session) {
     return (
-      <div
-        style={{
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div>
+      <div className="auth-container-parent">
+        <div className="auth-container-child">
           <Auth
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
             providers={["google"]}
           />
         </div>
-
       </div>
     );
   } else {

@@ -22,14 +22,6 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -64,5 +56,24 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Authentication Page CSS */
+.auth-container-parent {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth-container-child {
+  min-width: 600px;
+}
+/* Below Tablet Size */
+@media only screen and (max-width: 767px) {
+  .auth-container-child {
+    min-width: 0;
+    width: 90%;
   }
 }
