@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #212529;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -70,10 +70,18 @@ button:focus-visible {
 .auth-container-child {
   min-width: 600px;
 }
+.auth-container-child input {
+  color: white;
+}
 /* Below Tablet Size */
 @media only screen and (max-width: 767px) {
   .auth-container-child {
     min-width: 0;
     width: 90%;
   }
+}
+
+/* NavigationBar CSS */
+#nav-dropdown {
+  font-size: 0.75em;
 }

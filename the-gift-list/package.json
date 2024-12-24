@@ -14,7 +14,10 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/supabase-js": "^2.47.10",
     "@supabase/ui": "^0.36.5",
+    "bootstrap": "^5.3.3",
+    "mdb-react-ui-kit": "^9.0.0",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {

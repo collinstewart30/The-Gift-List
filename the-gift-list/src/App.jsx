@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import UserProfile from "./UserProfile";
+import NavigationBar from "./NavigationBar";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -39,8 +41,8 @@ export default function App() {
   } else {
     return (
       <div>
-        <div>Logged in!</div>
-        <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+        <NavigationBar />
+        <UserProfile />
       </div>
     );
   }
