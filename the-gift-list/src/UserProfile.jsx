@@ -193,15 +193,17 @@ export default function UserProfile() {
                       <div>
                         <MDBIcon
                           onClick={() => setIsEditing(false)}
+                          role="button"
                           far
                           icon="circle-xmark mb-5 me-3"
                         />
-                        <MDBIcon onClick={saveChanges} far icon="save mb-5" />
+                        <MDBIcon onClick={saveChanges} role="button" far icon="save mb-5" />
                       </div>
                     ) : (
                       <div>
                         <MDBIcon
                           onClick={() => setIsEditing(true)}
+                          role="button"
                           far
                           icon="edit mb-5"
                         />
