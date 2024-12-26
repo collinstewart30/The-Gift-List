@@ -1,10 +1,19 @@
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import {
+  MDBCol,
+  MDBContainer,
+  MDBRow,
+  MDBCard,
+  MDBCardText,
+  MDBCardBody,
+  MDBCardImage,
+  MDBTypography,
+  MDBIcon,
+} from "mdb-react-ui-kit";
 
 // Initialize Supabase client
 const supabase = createClient(
@@ -160,58 +169,120 @@ export default function UserProfile() {
         <div>Loading user...</div>
       )}
 
+      <section className="vh-100">
+        <MDBContainer className="py-5 h-100">
+          <MDBRow className="justify-content-center align-items-center h-100">
+            <MDBCol lg="10" className="mb-4 mb-lg-0">
+              <MDBCard className="mb-3" style={{ borderRadius: ".5rem" }}>
+                <MDBRow className="g-0">
+                  <MDBCol
+                    md="4"
+                    className="gradient-custom text-center text-white"
+                    style={{
+                      borderTopLeftRadius: ".5rem",
+                      borderBottomLeftRadius: ".5rem",
+                    }}
+                  >
+                    {userAvatarUrl ? (
+                      <div>
+                        <MDBCardImage
+                          src={userAvatarUrl}
+                          alt="Avatar"
+                          className="my-5"
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                          fluid
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <p>No avatar available.</p>
+                      </div>
+                    )}
+                    {isEditing ? (
+                      <div>
+                        <input
+                          type="text"
+                          className="mb-3"
+                          defaultValue={userFullName}
+                          onChange={(e) => setNewFullName(e.target.value)}
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <MDBTypography tag="h5">{userFullName}</MDBTypography>
+                      </div>
+                    )}
+                    {isEditing ? (
+                      <div>
+                        <MDBIcon
+                          onClick={() => setIsEditing(false)}
+                          far
+                          icon="circle-xmark mb-3 me-3"
+                        />
+                        <MDBIcon
+                          onClick={saveChanges}
+                          far
+                          icon="save mb-3"
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <MDBIcon
+                          onClick={() => setIsEditing(true)}
+                          far
+                          icon="edit mb-3"
+                        />
+                      </div>
+                    )}
+                  </MDBCol>
+                  <MDBCol md="8">
+                    <MDBCardBody className="p-4">
+                      <MDBTypography tag="h6">Information</MDBTypography>
+                      <hr className="mt-0 mb-4" />
+                      <MDBRow className="pt-1">
+                        <MDBCol size="6" className="mb-3">
+                          <MDBTypography tag="h6">Email</MDBTypography>
+                          <MDBCardText className="text-muted">
+                            {userEmail}
+                          </MDBCardText>
+                        </MDBCol>
+                        <MDBCol size="6" className="mb-3">
+                          <MDBTypography tag="h6">Phone</MDBTypography>
+                          <MDBCardText className="text-muted">
+                            123 456 789
+                          </MDBCardText>
+                        </MDBCol>
+                      </MDBRow>
 
-
-<section className="vh-100">
-      <MDBContainer className="py-5 h-100">
-        <MDBRow className="justify-content-center align-items-center h-100">
-          <MDBCol lg="10" className="mb-4 mb-lg-0">
-            <MDBCard className="mb-3" style={{ borderRadius: '.5rem' }}>
-              <MDBRow className="g-0">
-                <MDBCol md="4" className="gradient-custom text-center text-white"
-                  style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                  <MDBCardImage src={userAvatarUrl}
-                    alt="Avatar" className="my-5" style={{ width: '100px', height: '100px', objectFit: 'cover',  borderRadius: '50%'}} fluid />
-                  <MDBTypography tag="h5">{userFullName}</MDBTypography>
-                  <MDBIcon onClick={() => setIsEditing(true)} far icon="edit mb-5" />
-                </MDBCol>
-                <MDBCol md="8">
-                  <MDBCardBody className="p-4">
-                    <MDBTypography tag="h6">Information</MDBTypography>
-                    <hr className="mt-0 mb-4" />
-                    <MDBRow className="pt-1">
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Email</MDBTypography>
-                        <MDBCardText className="text-muted">{userEmail}</MDBCardText>
-                      </MDBCol>
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Phone</MDBTypography>
-                        <MDBCardText className="text-muted">123 456 789</MDBCardText>
-                      </MDBCol>
-                    </MDBRow>
-
-                    <MDBTypography tag="h6">Information</MDBTypography>
-                    <hr className="mt-0 mb-4" />
-                    <MDBRow className="pt-1">
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Email</MDBTypography>
-                        <MDBCardText className="text-muted">info@example.com</MDBCardText>
-                      </MDBCol>
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Phone</MDBTypography>
-                        <MDBCardText className="text-muted">123 456 789</MDBCardText>
-                      </MDBCol>
-                    </MDBRow>
-                  </MDBCardBody>
-                </MDBCol>
-              </MDBRow>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </section>
-
-
+                      <MDBTypography tag="h6">Information</MDBTypography>
+                      <hr className="mt-0 mb-4" />
+                      <MDBRow className="pt-1">
+                        <MDBCol size="6" className="mb-3">
+                          <MDBTypography tag="h6">Email</MDBTypography>
+                          <MDBCardText className="text-muted">
+                            info@example.com
+                          </MDBCardText>
+                        </MDBCol>
+                        <MDBCol size="6" className="mb-3">
+                          <MDBTypography tag="h6">Phone</MDBTypography>
+                          <MDBCardText className="text-muted">
+                            123 456 789
+                          </MDBCardText>
+                        </MDBCol>
+                      </MDBRow>
+                    </MDBCardBody>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </section>
     </Container>
   );
 }

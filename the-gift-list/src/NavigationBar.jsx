@@ -49,7 +49,7 @@ function NavigationBar() {
                 Something else here
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item eventKey="4.4"><button onClick={() => supabase.auth.signOut()} width={100}>Sign out</button></NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.4"><button onClick={() => supabase.auth.signOut()} style={{width: '100%'}}>Sign out</button></NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
