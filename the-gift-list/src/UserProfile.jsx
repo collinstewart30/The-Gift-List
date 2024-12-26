@@ -25,9 +25,11 @@ export default function UserProfile() {
   const [userId, setUserId] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [userFullName, setUserFullName] = useState(null);
+  const [userPhoneNumber, setUserPhoneNumber] = useState(null);
   const [userAvatarUrl, setUserAvatarUrl] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newFullName, setNewFullName] = useState("");
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [newAvatarUrl, setNewAvatarUrl] = useState("");
 
   useEffect(() => {
@@ -74,6 +76,9 @@ export default function UserProfile() {
               setUserFullName(
                 user.user_metadata?.full_name || user.email.split("@")[0]
               );
+              setUserPhoneNumber(
+                user.user_metadata?.phone || "+1 (234) 567-8901"
+              );
               setUserAvatarUrl(
                 user.user_metadata?.avatar_url ||
                   "https://via.placeholder.com/100"
@@ -85,6 +90,7 @@ export default function UserProfile() {
           } else {
             // Profile exists
             setUserFullName(profile.full_name);
+            setUserPhoneNumber(profile.phone);
             setUserAvatarUrl(profile.avatar_url);
           }
         }
@@ -102,6 +108,7 @@ export default function UserProfile() {
         .from("profiles")
         .update({
           full_name: newFullName || userFullName,
+          phone: newPhoneNumber || userPhoneNumber,
           avatar_url: newAvatarUrl || userAvatarUrl,
         })
         .eq("id", userId);
@@ -112,6 +119,7 @@ export default function UserProfile() {
       }
 
       setUserFullName(newFullName || userFullName);
+      setUserPhoneNumber(newPhoneNumber || userPhoneNumber);
       setUserAvatarUrl(newAvatarUrl || userAvatarUrl);
       setIsEditing(false);
     } catch (err) {
@@ -121,54 +129,6 @@ export default function UserProfile() {
 
   return (
     <Container>
-      {userId ? (
-        <div>
-          {userAvatarUrl ? (
-            <div>
-              <img
-                src={userAvatarUrl}
-                alt="User Avatar"
-                width={100}
-                height={100}
-              />
-            </div>
-          ) : (
-            <p>No avatar available.</p>
-          )}
-          {isEditing ? (
-            <div>
-              <div>
-                <label>Full Name:</label>
-                <input
-                  type="text"
-                  defaultValue={userFullName}
-                  onChange={(e) => setNewFullName(e.target.value)}
-                />
-              </div>
-              <div>Email Address: {userEmail}</div>
-              <div>
-                <label>Avatar URL:</label>
-                <input
-                  type="text"
-                  defaultValue={userAvatarUrl}
-                  onChange={(e) => setNewAvatarUrl(e.target.value)}
-                />
-              </div>
-              <button onClick={saveChanges}>Save Changes</button>
-              <button onClick={() => setIsEditing(false)}>Cancel</button>
-            </div>
-          ) : (
-            <div>
-              <div>Name: {userFullName}</div>
-              <div>Email: {userEmail}</div>
-              <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>Loading user...</div>
-      )}
-
       <section className="vh-100">
         <MDBContainer className="py-5 h-100">
           <MDBRow className="justify-content-center align-items-center h-100">
@@ -205,12 +165,24 @@ export default function UserProfile() {
                     )}
                     {isEditing ? (
                       <div>
-                        <input
-                          type="text"
-                          className="mb-3"
-                          defaultValue={userFullName}
-                          onChange={(e) => setNewFullName(e.target.value)}
-                        />
+                        <div>
+                          <p className="mb-0">New Avatar URL:</p>
+                          <input
+                            type="text"
+                            className="mb-3"
+                            defaultValue={userAvatarUrl}
+                            onChange={(e) => setNewAvatarUrl(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <p className="mb-0">Full Name:</p>
+                          <input
+                            type="text"
+                            className="mb-3"
+                            defaultValue={userFullName}
+                            onChange={(e) => setNewFullName(e.target.value)}
+                          />
+                        </div>
                       </div>
                     ) : (
                       <div>
@@ -222,20 +194,16 @@ export default function UserProfile() {
                         <MDBIcon
                           onClick={() => setIsEditing(false)}
                           far
-                          icon="circle-xmark mb-3 me-3"
+                          icon="circle-xmark mb-5 me-3"
                         />
-                        <MDBIcon
-                          onClick={saveChanges}
-                          far
-                          icon="save mb-3"
-                        />
+                        <MDBIcon onClick={saveChanges} far icon="save mb-5" />
                       </div>
                     ) : (
                       <div>
                         <MDBIcon
                           onClick={() => setIsEditing(true)}
                           far
-                          icon="edit mb-3"
+                          icon="edit mb-5"
                         />
                       </div>
                     )}
@@ -252,27 +220,21 @@ export default function UserProfile() {
                           </MDBCardText>
                         </MDBCol>
                         <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6">Phone</MDBTypography>
-                          <MDBCardText className="text-muted">
-                            123 456 789
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
-
-                      <MDBTypography tag="h6">Information</MDBTypography>
-                      <hr className="mt-0 mb-4" />
-                      <MDBRow className="pt-1">
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6">Email</MDBTypography>
-                          <MDBCardText className="text-muted">
-                            info@example.com
-                          </MDBCardText>
-                        </MDBCol>
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6">Phone</MDBTypography>
-                          <MDBCardText className="text-muted">
-                            123 456 789
-                          </MDBCardText>
+                          <MDBTypography tag="h6">Phone Number</MDBTypography>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              className="mb-3"
+                              defaultValue={userPhoneNumber}
+                              onChange={(e) =>
+                                setNewPhoneNumber(e.target.value)
+                              }
+                            />
+                          ) : (
+                            <MDBCardText className="text-muted">
+                              {userPhoneNumber}
+                            </MDBCardText>
+                          )}
                         </MDBCol>
                       </MDBRow>
                     </MDBCardBody>
